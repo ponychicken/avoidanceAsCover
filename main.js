@@ -46,14 +46,6 @@ function Square(x, y) {
 	this.velocity = new Vector(0, 0);
 
 	var shape = createActor(this.bigPos);
-	// shape.fillColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-	// shape.strokeColor = 'red';
-
-	// var debug = new Shape.Rectangle(this.bigPos, size);
-	// debug.fillColor = 'blue';
-	// debug.strokeColor = 'red';
-	// debug.opacity = 0;
-
 
 	this.screenElement = shape;
 	this.debugElement = {};
