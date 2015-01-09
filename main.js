@@ -138,19 +138,27 @@ function applyMove(oldLoc, newLoc, square) {
 	updateGridElement(oldLoc);
 }
 
-function moveSquare(square) {
+function moveSquare(square, recalculateForceNow) {
 	var oldLoc = square.curGrid;
 	var x = oldLoc.x;
 	var y = oldLoc.y;
-	var force = square.force = getForceOfSurrounding(x, y);
+	
+	// Calculate the new force only every second step
+	// This allows us to slow down the movement without changing the algorithm
+	if (recalculateForceNow) {
+		square.force = getForceOfSurrounding(x, y);
+		
+		if (square.force.isNullVector()) return;
+		
+		calculateVelocity(square);
+	}
+	
+	if (square.force.isNullVector()) return;
 
-	if (!force.x && !force.y) return;
 
-	calculateVelocity(square);
-
-	// Internal floating location
-	var newLoc = getAffectedGridElement(square.pos, square.velocity);
-	square.pos = square.pos.add(square.velocity);
+	// Apply only half velocity
+	var newLoc = getAffectedGridElement(square.pos, square.velocity.divide(2));
+	square.pos = square.pos.add(square.velocity.divide(2));
 
 	if (!newLoc.square && !newLoc.isWall) {
 		applyMove(oldLoc, newLoc, square);
@@ -245,6 +253,8 @@ function setupPixi() {
 
 }
 
+var recalculateForceNow = true;
+
 // Standard draw loop
 function draw() {
 	requestAnimationFrame(draw);
@@ -256,9 +266,10 @@ function draw() {
 		then = now - (delta % interval);
 		var l = amountOfSquares;
 		while(l--) {
-			moveSquare(squares[l]);
+			moveSquare(squares[l], recalculateForceNow);
 		}
 		renderer.render(stage);
+		recalculateForceNow = !recalculateForceNow;
 	}
 
 }
