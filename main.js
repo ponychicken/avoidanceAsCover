@@ -231,7 +231,7 @@ function setupPixi() {
 				index: index
 			};
 
-			if (Math.random() < 0.064) {
+			if (Math.random() < 0.063) {
 				grid[index].square = new Square(i, j);
 				grid[index].square.curIndex = index;
 				grid[index].square.curGrid = grid[index];
