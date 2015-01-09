@@ -114,7 +114,8 @@ function getForceOfSurrounding(x, y) {
 	return force.divide(Math.pow(count, 1 / 2.4));
 }
 
-function calculateVelocity(square, force) {
+function calculateVelocity(square) {
+	var force = square.force;
 	// Slow down
 	square.velocity = square.velocity.multiply(0.3);
 
@@ -151,11 +152,11 @@ function moveSquare(square) {
 	var oldLoc = square.curGrid;
 	var x = oldLoc.x;
 	var y = oldLoc.y;
-	var force = getForceOfSurrounding(x, y);
+	var force = square.force = getForceOfSurrounding(x, y);
 
 	if (!force.x && !force.y) return;
 
-	calculateVelocity(square, force);
+	calculateVelocity(square);
 
 	// Internal floating location
 	var newLoc = getAffectedGridElement(square.pos, square.velocity);
