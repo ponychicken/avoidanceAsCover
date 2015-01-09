@@ -164,6 +164,8 @@ function moveSquare(square) {
 
 	if (!newLoc.square && !newLoc.isWall) {
 		applyMove(oldLoc, newLoc, square);
+		square.screenElement.x = square.pos.x * size;
+		square.screenElement.y = square.pos.y * size;
 	}
 }
 
