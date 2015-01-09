@@ -1,5 +1,5 @@
-/* jshint node:false, browser:true, undef:true, esnext: true */
-/* global jQuery, io, PIXI, Vector, console, Shape  */
+/* jshint node:false, browser:true, undef:true, unused:true, esnext: true */
+/* global PIXI, Vector, console  */
 
 "use strict";
 
@@ -13,13 +13,7 @@ var mousePointer = {};
 var grid = [],
 	squares = [];
 
-var stage, renderer, bitmapSquare;
-
-var vectors = [];
-var addedVec = new Vector(0, 0);
-
-var steeringForce = 0.1;
-
+var stage, renderer;
 
 var borderPoint = {
 	isWall: true,
@@ -129,8 +123,6 @@ function calculateVelocity(square) {
 		return;
 	}
 	
-	//square.velocity.multiply(0.01);
-
 	// Max speed
 	if (length > maxSpeed) square.velocity = square.velocity.multiply(maxSpeed / length);
 
@@ -145,8 +137,6 @@ function applyMove(oldLoc, newLoc, square) {
 	updateGridElement(newLoc);
 	updateGridElement(oldLoc);
 }
-
-var test_x, test_y, oldLoc;
 
 function moveSquare(square) {
 	var oldLoc = square.curGrid;
@@ -252,17 +242,6 @@ function setupPixi() {
 	}
 
 	amountOfSquares = squares.length;
-	var text = new PIXI.Text('the thing – it’s name', {
-		font:"50px Georgia",
-		fill: 'white',
-		align: 'center',
-		stroke: 'red',
-		strokeThickness: 2
-	});
-	// text.position.x = width;
-	// text.position.y = height*2;
-	// stage.addChild(text);
-	//mouse();
 
 }
 
@@ -285,10 +264,9 @@ function draw() {
 }
 
 
-function createActor(point, fill, line) {
+function createActor(point, fill) {
 	var graphics = new PIXI.Graphics();
 	graphics.beginFill(fill || 0xFFFFFF || Math.random() * 16777215, 1);
-	//graphics.lineStyle(0, line || 0x0000FF, 1);
 	graphics.drawRect(0, 0, 2, 2);
 
 	var actor = new PIXI.Sprite(graphics.generateTexture());
@@ -308,10 +286,6 @@ function generateTexture() {
 	texture = graphics.generateTexture();
 }
 
-function mouse() {
-	mousePointer = new PIXI.Sprite(texture);
-	return stage.addChild(mousePointer);
-}
 
 // From underscore
 // Returns a function, that, as long as it continues to be invoked, will not
