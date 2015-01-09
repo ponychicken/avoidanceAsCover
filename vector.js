@@ -77,6 +77,9 @@ Vector.prototype = {
   clone: function() {
     return new Vector(this.x, this.y, this.z);
   },
+  isNullVector: function () {
+    return (this.x === 0 && this.y === 0 && this.z === 0);
+  },
   init: function(x, y, z) {
     this.x = x; this.y = y; this.z = z;
     return this;
