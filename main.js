@@ -313,9 +313,13 @@ function debounce(func, wait, immediate) {
 generateTexture();
 setupPixi();
 
+// Cover specifics
 window.addEventListener('resize', debounce(function () {
 	cleanup();
 	var canvas = renderer.view;
 	canvas.parentElement.removeChild(canvas);
 	setupPixi();
 }, 250));
+
+document.querySelector('h1').innerText = coverTitle;
+document.querySelector('h2').innerText = coverSubtitle;

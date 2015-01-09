@@ -13,8 +13,12 @@ var getUrlVars = function() {
 var urlVars = getUrlVars();
 if (typeof urlVars.title !== 'undefined') {
   var coverTitle = Base64.decode(urlVars.title);
+} else {
+  var coverTitle = 'Title was not passed';
 }
 
 if (typeof urlVars.subtitle !== 'undefined') {
   var coverSubtitle = Base64.decode(urlVars.subtitle);
+} else {
+  var coverSubtitle = 'Subtitle was not passed';
 }
