@@ -124,13 +124,14 @@ function calculateVelocity(square, force) {
 	var length = square.velocity.length();
 
 	if (length < 0.05) {
-		return square.velocity.multiply(0);
+		square.velocity = square.velocity.multiply(0);
+		return;
 	}
 	
 	//square.velocity.multiply(0.01);
 
 	// Max speed
-	if (length > maxSpeed) square.velocity.multiply(maxSpeed / length);
+	if (length > maxSpeed) square.velocity = square.velocity.multiply(maxSpeed / length);
 
 }
 
