@@ -145,7 +145,7 @@ function moveSquare(square, recalculateForceNow) {
 		calculateVelocity(square);
 	}
 	
-	if (square.force.isNullVector()) return;
+	if (!square.force || square.force.isNullVector()) return;
 
 
 	// Apply only half velocity
@@ -318,7 +318,11 @@ window.addEventListener('resize', debounce(function () {
 	cleanup();
 	var canvas = renderer.view;
 	canvas.parentElement.removeChild(canvas);
+	renderer.destroy();
+	PIXI.glContexts = [];
+	recalculateForceNow = true;
 	setupPixi();
+	recalculateForceNow = true;
 }, 250));
 
 document.querySelector('h1').innerText = coverTitle;

@@ -6,20 +6,41 @@ html, body {
 
 body {
   font-family: HelveticaTextbookCom-Roman, HelveticaTextbook-Roman, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1 {
   font-size: 40px;
   line-height: 42px;
-  font-weight: 400;
+  font-weight: normal;
   margin: 10px;
 }
 
 h2 {
   font-size: 22px;
   line-height: 27px;
-  font-weight: 400;
+  font-weight: normal;
   margin: 10px;
+}
+
+h1, h2 {
+  text-shadow:
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black,
+    -3px -3px 0 black,
+    3px -3px 0 black,
+    -3px 3px 0 black,
+    3px 3px 0 black,
+    -4px -4px 0 black,
+    4px -4px 0 black,
+    -4px 4px 0 black,
+    4px 4px 0 black,
+    -5px -5px 0 black,
+    5px -5px 0 black,
+    -5px 5px 0 black,
+    5px 5px 0 black;
 }
 
 header {
