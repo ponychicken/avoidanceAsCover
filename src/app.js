@@ -55,8 +55,8 @@ function Square(x, y) {
 
 
 function getGridSection(x, y) {
-	//
-	if (x > (centerPoint.x - 2) && x < (centerPoint.x + 2) && y > (centerPoint.y - 2) && y < (centerPoint.y + 2)) {
+	// Also avoid mouse
+	if (x > (centerPoint.x - 3) && x < (centerPoint.x + 3) && y > (centerPoint.y - 3) && y < (centerPoint.y + 3)) {
 		return borderPoint;
 	}
 
