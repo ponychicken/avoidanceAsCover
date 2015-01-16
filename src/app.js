@@ -205,13 +205,13 @@ function setupPixi() {
 
 	
 	// Setup Pixi
-	stage = new PIXI.Stage(0x000, false);
+	stage = new PIXI.Stage(0x0, false);
 	//stage.interactive = true;
 
 	width = Math.floor(window.innerWidth / size);
 	height = Math.floor(window.innerHeight / size);
 
-	renderer = PIXI.autoDetectRenderer(width * size, height * size);
+	renderer = PIXI.autoDetectRenderer(width * size, height * size, {transparent: true});
 
 	document.body.appendChild(renderer.view);
 
@@ -267,9 +267,9 @@ function draw() {
 }
 
 
-function createActor(point, fill) {
+function createActor(point) {
 	var graphics = new PIXI.Graphics();
-	graphics.beginFill(fill || 0xFFFFFF || Math.random() * 16777215, 1);
+	graphics.beginFill(0x0, 1);
 	graphics.drawRect(0, 0, 2, 2);
 
 	var actor = new PIXI.Sprite(graphics.generateTexture());
@@ -277,16 +277,6 @@ function createActor(point, fill) {
 	actor.x = point.x;
 	actor.y = point.y;
 	return stage.addChild(actor);
-}
-
-var texture;
-
-function generateTexture() {
-	var graphics = new PIXI.Graphics();
-	//graphics.beginFill(0xFF0000 || Math.random() * 16777215, 1);
-	graphics.lineStyle(2, 0xFF0000, 2);
-	graphics.drawCircle(0, 0, 10);
-	texture = graphics.generateTexture();
 }
 
 
@@ -310,20 +300,30 @@ function debounce(func, wait, immediate) {
 	};
 }
 
-generateTexture();
-setupPixi();
+function setup() {
+	isMobile = window.matchMedia("(max-device-width: 1024px)").matches;
+	// isMobile = true;
+	
+	if (isMobile) {
+		document.body.classList.add('mobile');
+	} else {
+		setupPixi();
+		
+		// Cover specifics
+		window.addEventListener('resize', debounce(function () {
+			cleanup();
+			var canvas = renderer.view;
+			canvas.parentElement.removeChild(canvas);
+			renderer.destroy();
+			PIXI.glContexts = [];
+			recalculateForceNow = true;
+			setupPixi();
+			recalculateForceNow = true;
+		}, 250));
+	}
+}
 
-// Cover specifics
-window.addEventListener('resize', debounce(function () {
-	cleanup();
-	var canvas = renderer.view;
-	canvas.parentElement.removeChild(canvas);
-	renderer.destroy();
-	PIXI.glContexts = [];
-	recalculateForceNow = true;
-	setupPixi();
-	recalculateForceNow = true;
-}, 250));
+setup();
 
-document.querySelector('h1').innerText = coverTitle;
-document.querySelector('h2').innerText = coverSubtitle;
+document.querySelector('h1').innerHTML = coverTitle;
+document.querySelector('h2').innerHTML = coverSubtitle;

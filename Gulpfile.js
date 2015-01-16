@@ -2,8 +2,9 @@ var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var zip = require('gulp-zip');
-var rename = require("gulp-rename");
-var uglify = require("gulp-uglify");
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
+var ghpages = require('gulp-gh-pages');
 
 // Run CSS through autoprefixed
 gulp.task('css', function () {
@@ -32,20 +33,32 @@ gulp.task('jsmin', function () {
 
 // Copy html and assets to dist
 gulp.task('copy', function () {
-	return gulp.src(['src/index.html', 'src/assets/*'])
+	return gulp.src(['src/index.html', 'src/assets/**/**'], {base: 'src/'})
 		.pipe(gulp.dest('dist'));
 });
 
+// All except zip
+gulp.task('all', ['copy', 'jsconcat', 'jsmin', 'css']);
+
 // Watch
-gulp.task('default', function () {
-	gulp.start('css', 'jsconcat', 'jsmin', 'copy');
-	gulp.watch('src/**/*.css', ['css']);
-	gulp.watch('src/**/*.js', ['jsconcat', 'jsmin']);
+gulp.task('watch', function () {
+	gulp.watch('./src/*.css', ['css']);
+	gulp.watch('./src/*.js', ['jsconcat', 'jsmin']);
+});
+
+// Default
+gulp.task('default', ['all', 'watch']);
+
+// Push to gh-pages
+gulp.task('deploy', function () {
+	return gulp.src('./dist/**/*')
+		.pipe(ghpages());
 });
 
 // Package
+gulp.task('package', ['all', 'zip']);
+
 gulp.task('zip', function () {
-	gulp.start('css', 'jsconcat', 'jsmin', 'copy');
 	gulp.src(['dist/*', 'other/*'])
 		.pipe(zip('Cover.zip'))
 		.pipe(gulp.dest(''));
