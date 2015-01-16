@@ -301,10 +301,9 @@ function debounce(func, wait, immediate) {
 }
 
 function setup() {
-	isMobile = window.matchMedia("(max-device-width: 1024px)").matches;
-	// isMobile = true;
+	var isDisabled = window.matchMedia("(max-device-width: 1024px)").matches || window.navigator.userAgent.indexOf('Trident') != -1 || window.navigator.userAgent.indexOf('MSIE') != -1;
 	
-	if (isMobile) {
+	if (isDisabled) {
 		document.body.classList.add('mobile');
 	} else {
 		setupPixi();
